@@ -22,6 +22,7 @@ import { Ispeak } from '../schema/ispeak.schema';
 import { IspeakService } from '../service/ispeak.service';
 import { CloudinaryService } from 'src/common/cloudinary/cloudinary.service';
 import { CreateIspeakDto } from '../dto/create-ispeak.dto';
+import { UpdateIspeakDto } from '../dto/update-ispeak.dto';
 
 @Controller('/ispeak')
 export class IspeakController {
@@ -260,25 +261,79 @@ export class IspeakController {
     }
   }
 
+  /**
+   * 更新一条 speak（支持多图上传和通过 body 传递 images）
+   * @param req 请求对象
+   * @param body 请求体
+   * @param files 上传的文件（最多9张）
+   * @returns
+   */
+  @IsLogin()
   @Patch('/update')
-  async updateSpeak(@Body() body, @Request() req) {
-    // eslint-disable-next-line prefer-const
-    let { _id, ...updateData } = body;
+  @UseInterceptors(
+    FilesInterceptor('images', 9, {
+      limits: {
+        fileSize: 10 * 1024 * 1024, // 10MB per file
+      },
+      fileFilter: (req, file, callback) => {
+        // 验证文件类型
+        if (!file.mimetype.match(/\/(jpg|jpeg|png|gif|webp)$/)) {
+          return callback(
+            new BadRequestException(
+              '只支持图片文件 (jpg, jpeg, png, gif, webp)',
+            ),
+            false,
+          );
+        }
+        callback(null, true);
+      },
+    }),
+  )
+  async updateSpeak(
+    @Body() body: UpdateIspeakDto,
+    @Request() req,
+    @UploadedFiles() files: any[],
+  ) {
+    const { _id, ...updateData } = body;
     const updateAuthor = req.user.userId;
 
-    const res = await this.ispeakService.findOneAndUpdate(
-      { _id, author: updateAuthor },
-      updateData,
-    );
+    // 验证 _id 是否为有效的 ObjectId
+    if (!isValidObjectId(_id)) {
+      return new ErrorModal(null, '请传入有效的speak id');
+    }
 
-    if (res.acknowledged && res.modifiedCount === 1) {
-      return new SuccessModal(res, '更新成功');
-    } else {
-      if (res.matchedCount === 0) {
-        return new ErrorModal(res, '没有找到对应speak');
-      } else {
-        return new ErrorModal(res, '更新失败');
+    try {
+      // 如果有文件上传，则上传到 Cloudinary
+      if (files && files.length > 0) {
+        const uploadResults = await this.cloudinaryService.uploadMultipleFiles(
+          files,
+        );
+        const uploadedImages = uploadResults.map((result) => result.url);
+
+        // 如果 body 中也有 images，合并两者；否则使用上传的图片
+        if (updateData.images && Array.isArray(updateData.images)) {
+          updateData.images = [...updateData.images, ...uploadedImages];
+        } else {
+          updateData.images = uploadedImages;
+        }
       }
+
+      const res = await this.ispeakService.findOneAndUpdate(
+        { _id, author: updateAuthor },
+        updateData,
+      );
+
+      if (res.acknowledged && res.modifiedCount === 1) {
+        return new SuccessModal(res, '更新成功');
+      } else {
+        if (res.matchedCount === 0) {
+          return new ErrorModal(res, '没有找到对应speak');
+        } else {
+          return new ErrorModal(res, '更新失败');
+        }
+      }
+    } catch (error) {
+      throw error;
     }
   }
 
