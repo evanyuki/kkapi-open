@@ -48,6 +48,15 @@ export class Ispeak {
   @Prop({ type: mongoose.Schema.Types.ObjectId, ref: UserModelName.User, required: true })
   author: string;
 
+  /**
+   * 图片列表
+   */
+  @Prop({
+    type: [String],
+    default: [],
+  })
+  images: string[];
+
   @Prop()
   updatedAt: Date;
   @Prop()

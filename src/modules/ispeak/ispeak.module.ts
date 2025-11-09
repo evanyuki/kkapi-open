@@ -1,6 +1,7 @@
 import { forwardRef, Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import { ISpeakModelName } from 'src/constant/model-name';
+import { CloudinaryModule } from 'src/common/cloudinary/cloudinary.module';
 import { UserModule } from '../users/user.module';
 import { IspeakController } from './controller/ispeak.controller';
 import { IspeakTagController } from './controller/ispeakTag.controller';
@@ -12,6 +13,7 @@ import { IspeakTagService } from './service/ispeakTag.service';
 @Module({
   imports: [
     forwardRef(() => UserModule),
+    CloudinaryModule,
     MongooseModule.forFeature([
       {
         name: ISpeakModelName.ISpeakList,
