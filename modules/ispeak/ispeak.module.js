@@ -10,6 +10,7 @@ exports.IspeakModule = void 0;
 const common_1 = require("@nestjs/common");
 const mongoose_1 = require("@nestjs/mongoose");
 const model_name_1 = require("../../constant/model-name");
+const cloudinary_module_1 = require("../../common/cloudinary/cloudinary.module");
 const user_module_1 = require("../users/user.module");
 const ispeak_controller_1 = require("./controller/ispeak.controller");
 const ispeakTag_controller_1 = require("./controller/ispeakTag.controller");
@@ -23,6 +24,7 @@ IspeakModule = __decorate([
     (0, common_1.Module)({
         imports: [
             (0, common_1.forwardRef)(() => user_module_1.UserModule),
+            cloudinary_module_1.CloudinaryModule,
             mongoose_1.MongooseModule.forFeature([
                 {
                     name: model_name_1.ISpeakModelName.ISpeakList,

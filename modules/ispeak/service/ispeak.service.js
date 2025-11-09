@@ -93,6 +93,7 @@ let IspeakService = class IspeakService {
                     tag: 1,
                     author: 1,
                     showComment: 1,
+                    images: 1,
                 },
             },
             {

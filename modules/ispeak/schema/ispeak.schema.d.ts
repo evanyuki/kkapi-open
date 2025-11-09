@@ -8,6 +8,7 @@ export declare class Ispeak {
     tag: IspeakTag;
     showComment: string;
     author: string;
+    images: string[];
     updatedAt: Date;
     createdAt: Date;
 }

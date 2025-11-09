@@ -22,6 +22,7 @@ let Ispeak = class Ispeak {
     tag;
     showComment;
     author;
+    images;
     updatedAt;
     createdAt;
 };
@@ -57,6 +58,13 @@ __decorate([
     (0, mongoose_1.Prop)({ type: mongoose.Schema.Types.ObjectId, ref: model_name_1.UserModelName.User, required: true }),
     __metadata("design:type", String)
 ], Ispeak.prototype, "author", void 0);
+__decorate([
+    (0, mongoose_1.Prop)({
+        type: [String],
+        default: [],
+    }),
+    __metadata("design:type", Array)
+], Ispeak.prototype, "images", void 0);
 __decorate([
     (0, mongoose_1.Prop)(),
     __metadata("design:type", Date)
