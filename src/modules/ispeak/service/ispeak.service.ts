@@ -8,7 +8,7 @@ import { IspeakDocument, Ispeak } from '../schema/ispeak.schema';
 export class IspeakService {
   constructor(
     @InjectModel(ISpeakModelName.ISpeakList) private IspeakModel: mongoose.Model<IspeakDocument>,
-  ) {}
+  ) { }
 
   async getSpeakByPage(page = 1, limit = 10, findOption: any = {}) {
     const query = [];
@@ -57,6 +57,11 @@ export class IspeakService {
           localField: 'tag',
           foreignField: '_id',
           as: 'tag',
+        },
+      },
+      {
+        $addFields: {
+          tag: { $arrayElemAt: ['$tag', 0] },
         },
       },
       {
