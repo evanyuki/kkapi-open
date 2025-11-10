@@ -75,6 +75,11 @@ let IspeakService = class IspeakService {
                 },
             },
             {
+                $addFields: {
+                    tag: { $arrayElemAt: ['$tag', 0] },
+                },
+            },
+            {
                 $lookup: {
                     from: model_name_1.UserModelName.User,
                     localField: 'author',
