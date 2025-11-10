@@ -34,6 +34,9 @@ export class CloudinaryService {
    */
   async uploadFile(file: any): Promise<CloudinaryUploadResult> {
     return new Promise((resolve, reject) => {
+      // 检测是否为 HEIC/HEIF 格式，需要转换为更兼容的格式
+      const isHeicFormat = file.mimetype?.match(/\/(heic|heif)$/i);
+      
       const uploadStream = cloudinary.uploader.upload_stream(
         {
           folder: this.folder,
@@ -42,7 +45,8 @@ export class CloudinaryService {
           transformation: [
             { width: 2000, height: 2000, crop: 'limit' }, // 限制最大尺寸
             { quality: 'auto:good' }, // 自动优化质量
-            { fetch_format: 'auto' }, // 自动选择最佳格式
+            // HEIC 格式自动转换为 JPEG 以确保浏览器兼容性
+            { fetch_format: isHeicFormat ? 'jpg' : 'auto' }, // 自动选择最佳格式
           ],
         },
         (error: UploadApiErrorResponse, result: UploadApiResponse) => {

@@ -144,11 +144,11 @@ export class IspeakController {
         fileSize: 10 * 1024 * 1024, // 10MB per file
       },
       fileFilter: (req, file, callback) => {
-        // 验证文件类型
-        if (!file.mimetype.match(/\/(jpg|jpeg|png|gif|webp)$/)) {
+        // 验证文件类型（支持 HEIC/HEIF 格式）
+        if (!file.mimetype.match(/\/(jpg|jpeg|png|gif|webp|heic|heif)$/i)) {
           return callback(
             new BadRequestException(
-              '只支持图片文件 (jpg, jpeg, png, gif, webp)',
+              '只支持图片文件 (jpg, jpeg, png, gif, webp, heic, heif)',
             ),
             false,
           );
@@ -211,11 +211,11 @@ export class IspeakController {
         fileSize: 10 * 1024 * 1024, // 10MB per file
       },
       fileFilter: (req, file, callback) => {
-        // 验证文件类型
-        if (!file.mimetype.match(/\/(jpg|jpeg|png|gif|webp)$/)) {
+        // 验证文件类型（支持 HEIC/HEIF 格式）
+        if (!file.mimetype.match(/\/(jpg|jpeg|png|gif|webp|heic|heif)$/i)) {
           return callback(
             new BadRequestException(
-              '只支持图片文件 (jpg, jpeg, png, gif, webp)',
+              '只支持图片文件 (jpg, jpeg, png, gif, webp, heic, heif)',
             ),
             false,
           );
@@ -276,11 +276,11 @@ export class IspeakController {
         fileSize: 10 * 1024 * 1024, // 10MB per file
       },
       fileFilter: (req, file, callback) => {
-        // 验证文件类型
-        if (!file.mimetype.match(/\/(jpg|jpeg|png|gif|webp)$/)) {
+        // 验证文件类型（支持 HEIC/HEIF 格式）
+        if (!file.mimetype.match(/\/(jpg|jpeg|png|gif|webp|heic|heif)$/i)) {
           return callback(
             new BadRequestException(
-              '只支持图片文件 (jpg, jpeg, png, gif, webp)',
+              '只支持图片文件 (jpg, jpeg, png, gif, webp, heic, heif)',
             ),
             false,
           );
