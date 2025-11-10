@@ -289,8 +289,8 @@ __decorate([
             fileSize: 10 * 1024 * 1024,
         },
         fileFilter: (req, file, callback) => {
-            if (!file.mimetype.match(/\/(jpg|jpeg|png|gif|webp)$/)) {
-                return callback(new common_1.BadRequestException('只支持图片文件 (jpg, jpeg, png, gif, webp)'), false);
+            if (!file.mimetype.match(/\/(jpg|jpeg|png|gif|webp|heic|heif)$/i)) {
+                return callback(new common_1.BadRequestException('只支持图片文件 (jpg, jpeg, png, gif, webp, heic, heif)'), false);
             }
             callback(null, true);
         },
@@ -310,8 +310,8 @@ __decorate([
             fileSize: 10 * 1024 * 1024,
         },
         fileFilter: (req, file, callback) => {
-            if (!file.mimetype.match(/\/(jpg|jpeg|png|gif|webp)$/)) {
-                return callback(new common_1.BadRequestException('只支持图片文件 (jpg, jpeg, png, gif, webp)'), false);
+            if (!file.mimetype.match(/\/(jpg|jpeg|png|gif|webp|heic|heif)$/i)) {
+                return callback(new common_1.BadRequestException('只支持图片文件 (jpg, jpeg, png, gif, webp, heic, heif)'), false);
             }
             callback(null, true);
         },
@@ -330,8 +330,8 @@ __decorate([
             fileSize: 10 * 1024 * 1024,
         },
         fileFilter: (req, file, callback) => {
-            if (!file.mimetype.match(/\/(jpg|jpeg|png|gif|webp)$/)) {
-                return callback(new common_1.BadRequestException('只支持图片文件 (jpg, jpeg, png, gif, webp)'), false);
+            if (!file.mimetype.match(/\/(jpg|jpeg|png|gif|webp|heic|heif)$/i)) {
+                return callback(new common_1.BadRequestException('只支持图片文件 (jpg, jpeg, png, gif, webp, heic, heif)'), false);
             }
             callback(null, true);
         },

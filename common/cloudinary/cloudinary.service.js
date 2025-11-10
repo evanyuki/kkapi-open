@@ -23,13 +23,14 @@ let CloudinaryService = class CloudinaryService {
     }
     async uploadFile(file) {
         return new Promise((resolve, reject) => {
+            const isHeicFormat = file.mimetype?.match(/\/(heic|heif)$/i);
             const uploadStream = cloudinary_1.v2.uploader.upload_stream({
                 folder: this.folder,
                 resource_type: 'auto',
                 transformation: [
                     { width: 2000, height: 2000, crop: 'limit' },
                     { quality: 'auto:good' },
-                    { fetch_format: 'auto' },
+                    { fetch_format: isHeicFormat ? 'jpg' : 'auto' },
                 ],
             }, (error, result) => {
                 if (error) {
