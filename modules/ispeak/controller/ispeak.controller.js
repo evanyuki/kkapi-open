@@ -68,7 +68,7 @@ let IspeakController = class IspeakController {
                         avatar: item.author[0].avatar,
                     }
                     : { nickName: '', avatar: '' };
-                item.tag = item.tag ? item.tag[0] : {};
+                item.tag = item.tag || {};
                 if (item.type === '0') {
                     returnObj.items.push(item);
                 }
